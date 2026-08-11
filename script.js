@@ -1,23 +1,3 @@
-/* ================================================================
-   PHISHING LINK CHECKER — the logic, explained step by step
-   ================================================================
-   The idea: real anti-phishing tools use big databases and machine
-   learning. We can't do that in a school project, so instead we do
-   what a careful human would do: look for a handful of WARNING SIGNS
-   that phishing links commonly have, and add up how many are found.
-
-   Each "rule" below is its own small function that:
-     1) looks at the URL for one specific red flag
-     2) returns true/false (flag found or not)
-     3) comes with a short human-readable explanation
-
-   More flags found  =  higher risk score  =  more likely phishing.
-================================================================= */
-
-// A short list of well-known brand names phishing links love to fake.
-// If one of these words appears in the URL BUT the site is not the
-// real domain for that brand, that's suspicious (this is a very
-// simplified version of what's called "typosquatting" detection).
 const KNOWN_BRANDS = [
   { name: "paypal",  realDomain: "paypal.com" },
   { name: "google",  realDomain: "google.com" },
@@ -26,24 +6,15 @@ const KNOWN_BRANDS = [
   { name: "amazon",  realDomain: "amazon.com" },
   { name: "microsoft",realDomain: "microsoft.com" },
   { name: "netflix", realDomain: "netflix.com" },
-  { name: "bank",    realDomain: null } // generic word, no single "real" domain
+  { name: "bank",    realDomain: null } 
 ];
 
-// Words that often show up in urgent, scary, or too-good-to-be-true
-// phishing messages / URLs.
 const URGENCY_WORDS = [
   "verify", "suspend", "urgent", "confirm", "update", "secure",
   "account", "login", "signin", "unlock", "limited", "reward", "winner"
 ];
 
-/* ---------- RULE FUNCTIONS ---------- */
-/* Each function takes the URL (and a parsed "link" object from the
-   built-in URL() tool) and returns { flagged: bool, why: string } */
-
 function ruleUsesIP(url, link) {
-  // Real companies almost never send you to a raw IP address
-  // (like http://192.168.1.5). Phishing sites do this often to
-  // hide who they really are.
   const isIP = /^(\d{1,3}\.){3}\d{1,3}$/.test(link.hostname);
   return {
     flagged: isIP,
@@ -54,8 +25,6 @@ function ruleUsesIP(url, link) {
 }
 
 function ruleNoHTTPS(url, link) {
-  // HTTPS encrypts the connection. Its absence doesn't PROVE a site
-  // is fake, but legit login pages almost always use it today.
   const insecure = link.protocol !== "https:";
   return {
     flagged: insecure,
@@ -66,9 +35,6 @@ function ruleNoHTTPS(url, link) {
 }
 
 function ruleHasAtSymbol(url) {
-  // Browsers ignore everything before an "@" in a URL, so scammers
-  // write things like https://google.com@evil.com to LOOK like
-  // Google while actually sending you to evil.com.
   const hasAt = url.includes("@");
   return {
     flagged: hasAt,
@@ -79,8 +45,6 @@ function ruleHasAtSymbol(url) {
 }
 
 function ruleTooManySubdomains(url, link) {
-  // login.account.secure.example.com.phisher.net — lots of dots
-  // before the real domain is a common disguise technique.
   const dotCount = (link.hostname.match(/\./g) || []).length;
   const tooMany = dotCount >= 4;
   return {
@@ -92,9 +56,6 @@ function ruleTooManySubdomains(url, link) {
 }
 
 function ruleHyphens(url, link) {
-  // paypal-secure-login-verify.com — scammers stack hyphenated
-  // keywords to look "official" while using a totally different
-  // real domain.
   const hyphens = (link.hostname.match(/-/g) || []).length;
   const many = hyphens >= 2;
   return {
@@ -117,8 +78,6 @@ function ruleUrgencyWords(url) {
 }
 
 function ruleFakeBrand(url, link) {
-  // If a brand name appears in the URL but the actual domain is NOT
-  // that brand's real domain, flag it (simplified typosquatting check).
   const lower = url.toLowerCase();
   for (const brand of KNOWN_BRANDS) {
     if (brand.realDomain && lower.includes(brand.name)) {
@@ -136,8 +95,6 @@ function ruleFakeBrand(url, link) {
 }
 
 function ruleLongURL(url) {
-  // Phishing links are often stuffed with extra text/tracking junk
-  // to bury the suspicious part and look more "legitimate".
   const long = url.length > 75;
   return {
     flagged: long,
@@ -147,7 +104,6 @@ function ruleLongURL(url) {
   };
 }
 
-// All rules in one place — add/remove rules here and the app updates.
 const RULES = [
   { label: "Uses a raw IP address",        fn: ruleUsesIP },
   { label: "Missing HTTPS encryption",      fn: ruleNoHTTPS },
@@ -159,14 +115,10 @@ const RULES = [
   { label: "Unusually long link",           fn: ruleLongURL },
 ];
 
-/* ---------- MAIN FUNCTION: runs when "Check" is clicked ---------- */
 function checkURL() {
   const raw = document.getElementById("urlInput").value.trim();
   if (!raw) return;
 
-  // The browser's built-in URL() tool splits a link into pieces
-  // (protocol, hostname, path, etc). We add "https://" if the user
-  // forgot to type it, so URL() doesn't crash.
   let link;
   try {
     const withProtocol = /^https?:\/\//i.test(raw) ? raw : "https://" + raw;
@@ -176,23 +128,20 @@ function checkURL() {
     return;
   }
 
-  // Run every rule and collect the results.
   const results = RULES.map(rule => ({
     label: rule.label,
     ...rule.fn(raw, link)
   }));
 
   const flaggedCount = results.filter(r => r.flagged).length;
-  const score = Math.round((flaggedCount / RULES.length) * 100); // 0–100%
+  const score = Math.round((flaggedCount / RULES.length) * 100); 
 
   renderResult(score, flaggedCount, results);
 }
 
-/* ---------- Puts the results on the page ---------- */
 function renderResult(score, flaggedCount, results) {
   document.getElementById("result").style.display = "block";
 
-  // Decide the overall verdict from the score.
   let level, icon, title, sub;
   if (score <= 20) {
     level = "safe";   icon = "✅";
@@ -220,7 +169,6 @@ function renderResult(score, flaggedCount, results) {
   fill.style.background =
     level === "safe" ? "var(--safe)" : level === "warn" ? "var(--warn)" : "var(--danger)";
 
-  // Build the checklist showing every rule and whether it triggered.
   const list = document.getElementById("checksList");
   list.innerHTML = "";
   results.forEach(r => {
@@ -241,7 +189,6 @@ function loadExample(url) {
   checkURL();
 }
 
-// Let pressing Enter trigger a check too.
 document.getElementById("urlInput").addEventListener("keydown", e => {
   if (e.key === "Enter") checkURL();
 });
