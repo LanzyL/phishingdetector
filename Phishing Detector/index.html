@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Phishing Link Checker</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="wrap">
+
+  <header>
+    <div class="badge">LANCE LLABAN | BSCS-3</div>
+    <h1>🔗 Phishing Link Checker</h1>
+    <p>Paste a link below. This tool looks for common red flags<br>
+       that real phishing links use to trick people.</p>
+  </header>
+
+  <div class="card">
+    <label for="urlInput">Website link to check</label>
+    <div class="input-row">
+      <input type="text" id="urlInput" placeholder="e.g. https://accounts-secure-login.com" autocomplete="off">
+      <button id="checkBtn" onclick="checkURL()">Check</button>
+    </div>
+    <div class="examples">
+      Try an example:
+      <button onclick="loadExample('https://www.google.com')">a safe one</button>
+      <button onclick="loadExample('http://192.168.10.5/paypal-verify-account')">a suspicious one</button>
+    </div>
+  </div>
+
+  <div id="result">
+    <div class="card">
+      <div id="verdictBox" class="verdict">
+        <div class="icon" id="verdictIcon">🛡️</div>
+        <div>
+          <div class="title" id="verdictTitle">—</div>
+          <div class="sub" id="verdictSub">—</div>
+        </div>
+      </div>
+      <div class="score-bar"><div class="score-fill" id="scoreFill" style="width:0%"></div></div>
+    </div>
+
+    <div class="card">
+      <ul class="checks" id="checksList"></ul>
+    </div>
+  </div>
+
+  <!-- This is a simple educational tool for a school activity on phishing awareness (inspired by
+    the film <em>“On the Line”</em>). It uses basic pattern-matching — not a real security product —
+    so never rely on it alone to judge a real link. -->
+
+  <footer>
+    --- SIMPLE PHISHING DETECTOR PARA SA GRADES ---
+  </footer>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
