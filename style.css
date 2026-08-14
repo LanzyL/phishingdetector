@@ -1,15 +1,11 @@
-/* ============================================================
-   COLORS & FONTS
-   We keep every color in one place (CSS variables) so the
-   whole look can be changed by editing just these lines.
-============================================================ */
+
 :root{
   --bg:        #0d1321;   /* page background - deep navy, like a security console */
   --panel:     #17213a;   /* card background */
   --panel-2:   #1f2c4d;   /* input background */
   --line:      #2c3b63;   /* borders */
   --text:      #e8ecf7;   /* main text */
-  --muted:     #8b97b8;   /* secondary text */
+  --muted:     #a3aed0;   /* secondary text (lightened for contrast) */
   --safe:      #4ade80;   /* green  = looks okay */
   --warn:      #fbbf24;   /* amber  = be careful */
   --danger:    #f87171;   /* red    = likely phishing */
@@ -56,9 +52,38 @@ header p{ color:var(--muted); margin:0; line-height:1.5; }
 }
 label{ display:block; font-size:13px; color:var(--muted); margin-bottom:8px; }
 
-.input-row{ display:flex; gap:10px; }
-input[type="text"]{
+/* ---------- Tabs ---------- */
+.tabs{
+  display:flex;
+  gap:6px;
+  background:var(--panel-2);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:4px;
+  margin-bottom:20px;
+}
+.tab-btn{
   flex:1;
+  background:none;
+  color:var(--muted);
+  font-weight:600;
+  font-size:14px;
+  padding:10px 12px;
+  border-radius:8px;
+  border:none;
+  cursor:pointer;
+  transition:background .2s ease, color .2s ease;
+}
+.tab-btn.active{
+  background:var(--accent);
+  color:#fff;
+}
+.tab-btn:hover:not(.active){ color:var(--text); }
+
+.input-row{ display:flex; gap:10px; }
+input[type="text"], textarea{
+  flex:1;
+  width:100%;
   background:var(--panel-2);
   border:1px solid var(--line);
   color:var(--text);
@@ -67,8 +92,9 @@ input[type="text"]{
   padding:12px 14px;
   border-radius:10px;
   outline:none;
+  resize:vertical;
 }
-input[type="text"]:focus{ border-color:var(--accent); box-shadow:0 0 0 3px rgba(91,140,255,.25); }
+input[type="text"]:focus, textarea:focus{ border-color:var(--accent); box-shadow:0 0 0 3px rgba(91,140,255,.25); }
 
 button{
   background:var(--accent);
@@ -89,8 +115,21 @@ button:focus-visible{ outline:2px solid #fff; outline-offset:2px; }
   padding:0; margin-right:14px; font-size:13px; text-decoration:underline;
 }
 
+/* ---------- Inline input error (replaces alert()) ---------- */
+.input-error{
+  display:none;
+  margin-top:10px;
+  padding:10px 12px;
+  border-radius:8px;
+  background:rgba(248,113,113,.1);
+  border:1px solid var(--danger);
+  color:var(--danger);
+  font-size:13px;
+}
+
 /* ---------- Result card ---------- */
-#result{ display:none; }
+#result{ display:none; opacity:0; transition:opacity .3s ease; }
+#result.show{ opacity:1; }
 
 .verdict{
   display:flex; align-items:center; gap:14px;
@@ -122,11 +161,52 @@ button:focus-visible{ outline:2px solid #fff; outline-offset:2px; }
 .checks .mark{ font-family:var(--mono); font-weight:700; width:20px; flex-shrink:0; }
 .checks li.flagged .mark{ color:var(--danger); }
 .checks li.ok .mark{ color:var(--safe); }
-.checks .label{ color:var(--text); }
-.checks .why{ color:var(--muted); font-size:12.5px; }
+.checks .label{ color:var(--text); display:flex; align-items:center; gap:6px; }
+.checks .why{ color:var(--muted); font-size:12.5px; margin-top:2px; }
+
+/* ---------- Glossary info button + tooltip ---------- */
+.info-btn{
+  background:none;
+  border:1px solid var(--line);
+  color:var(--accent);
+  width:18px; height:18px;
+  min-width:18px;
+  border-radius:50%;
+  font-size:11px;
+  line-height:1;
+  padding:0;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+}
+.info-btn:hover{ background:var(--panel-2); }
+
+.glossary-tooltip{
+  display:none;
+  position:absolute;
+  max-width:280px;
+  background:var(--panel-2);
+  border:1px solid var(--accent);
+  color:var(--text);
+  font-size:13px;
+  line-height:1.5;
+  padding:12px 14px;
+  border-radius:10px;
+  box-shadow:0 8px 24px rgba(0,0,0,.4);
+  z-index:50;
+}
+.glossary-tooltip.open{ display:block; }
 
 footer{
   text-align:center; color:var(--muted); font-size:12px;
   margin-top:30px; line-height:1.6;
 }
 code{ background:var(--panel-2); padding:1px 5px; border-radius:4px; font-family:var(--mono); }
+
+/* ---------- Mobile ---------- */
+@media (max-width: 420px){
+  .input-row{ flex-direction:column; }
+  button{ width:100%; }
+  .glossary-tooltip{ max-width: calc(100vw - 40px); }
+}
