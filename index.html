@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Phishing Link Checker</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="wrap">
+    <header>
+
+      <div class="badge">
+        LANCE LLABAN | BSCS-3
+      </div>
+
+      <h1>
+        🔗 Phishing Link Checker
+      </h1>
+
+      <p>
+        Not sure if that link or message is safe? Check it below for common tricks<br>
+        scammers use to steal your information.
+      </p>
+
+    </header>
+
+
+    <div class="card">
+
+      <div class="tabs">
+
+        <button
+          class="tab-btn active"
+          id="tabLinkBtn"
+          onclick="switchTab('link')">
+          🔗 Check a Link
+        </button>
+
+        <button
+          class="tab-btn"
+          id="tabMessageBtn"
+          onclick="switchTab('message')">
+          ✉️ Check a Message
+        </button>
+
+      </div>
+
+      <div id="linkPanel">
+
+        <label for="urlInput">
+          Website link to check
+        </label>
+
+        <div class="input-row">
+
+          <input
+            type="text"
+            id="urlInput"
+            placeholder="e.g. https://accounts-secure-login.com"
+            autocomplete="off"
+          >
+
+          <button
+            id="checkBtn"
+            onclick="checkURL()">
+            Check
+          </button>
+
+        </div>
+
+
+        <!-- Examples -->
+        <div class="examples">
+
+          Try an example:
+
+          <button
+            onclick="loadExample('https://www.google.com')">
+            a safe one
+          </button>
+
+          <button
+            onclick="loadExample('http://192.168.10.5/paypal-verify-account')">
+            a suspicious one
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div
+        id="messagePanel"
+        style="display:none;"
+      >
+
+        <label for="msgInput">
+          Paste the message or email text
+        </label>
+
+        <textarea
+          id="msgInput"
+          rows="5"
+          placeholder="Paste the full message here..."
+        ></textarea>
+
+
+        <div
+          class="input-row"
+          style="margin-top:10px;"
+        >
+
+          <button
+            id="checkMsgBtn"
+            onclick="checkMessage()"
+            style="width:100%;">
+            Check Message
+          </button>
+
+        </div>
+
+        <div class="examples">
+
+          Try an example:
+
+          <button
+            onclick="loadMessageExample('safe')">
+            a normal message
+          </button>
+
+          <button
+            onclick="loadMessageExample('phish')">
+            a suspicious message
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div id="result">
+
+  
+      <div class="card">
+
+        <div
+          id="verdictBox"
+          class="verdict"
+        >
+
+          <div
+            class="icon"
+            id="verdictIcon">
+            🛡️
+          </div>
+
+          <div>
+
+            <div
+              class="title"
+              id="verdictTitle">
+              —
+            </div>
+
+            <div
+              class="sub"
+              id="verdictSub">
+              —
+            </div>
+
+          </div>
+
+        </div>
+
+
+        
+        <div class="score-bar">
+
+          <div
+            class="score-fill"
+            id="scoreFill"
+            style="width:0%;">
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="card">
+
+        <ul
+          class="checks"
+          id="checksList">
+        </ul>
+
+      </div>
+
+    </div>
+
+    <div
+      id="glossaryTooltip"
+      class="glossary-tooltip">
+    </div>
+
+    <footer>
+      --- SIMPLE PHISHING DETECTOR PARA SA GRADES ---
+    </footer>
+
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+</html>

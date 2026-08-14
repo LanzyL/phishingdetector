@@ -1,0 +1,684 @@
+/* ============================================================
+   COLORS & FONTS
+   ============================================================ */
+
+:root{
+  --bg:        #0d1321;
+  --panel:     #17213a;
+  --panel-2:   #1f2c4d;
+  --line:      #2c3b63;
+  --text:      #e8ecf7;
+  --muted:     #a3aed0;
+  --safe:      #4ade80;
+  --warn:      #fbbf24;
+  --danger:    #f87171;
+  --accent:    #5b8cff;
+  --mono: 'Courier New', Consolas, monospace;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+
+/* ============================================================
+   GLOBAL
+   ============================================================ */
+
+*{
+  box-sizing:border-box;
+}
+
+html{
+  width:100%;
+  overflow-x:hidden;
+}
+
+body{
+  margin:0;
+  width:100%;
+  min-height:100vh;
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--sans);
+  padding:32px 16px 80px;
+  overflow-x:hidden;
+}
+
+.wrap{
+  width:100%;
+  max-width:720px;
+  margin:0 auto;
+}
+
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+
+header{
+  text-align:center;
+  margin-bottom:28px;
+}
+
+.badge{
+  display:inline-block;
+  font-family:var(--mono);
+  font-size:12px;
+  letter-spacing:.14em;
+  color:var(--accent);
+  border:1px solid var(--line);
+  padding:4px 10px;
+  border-radius:999px;
+  margin-bottom:14px;
+  max-width:100%;
+}
+
+h1{
+  margin:0 0 8px;
+  font-size:clamp(26px,5vw,36px);
+  line-height:1.2;
+}
+
+header p{
+  color:var(--muted);
+  margin:0;
+  line-height:1.5;
+}
+
+
+/* ============================================================
+   CARD
+   ============================================================ */
+
+.card{
+  width:100%;
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:22px;
+  margin-bottom:20px;
+}
+
+label{
+  display:block;
+  font-size:13px;
+  color:var(--muted);
+  margin-bottom:8px;
+}
+
+
+/* ============================================================
+   TABS
+   ============================================================ */
+
+.tabs{
+  display:flex;
+  width:100%;
+  gap:6px;
+  background:var(--panel-2);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:4px;
+  margin-bottom:20px;
+}
+
+.tab-btn{
+  flex:1;
+  min-width:0;
+  background:none;
+  color:var(--muted);
+  font-weight:600;
+  font-size:14px;
+  padding:10px 12px;
+  border-radius:8px;
+  border:none;
+  cursor:pointer;
+  transition:background .2s ease, color .2s ease;
+}
+
+.tab-btn.active{
+  background:var(--accent);
+  color:#fff;
+}
+
+.tab-btn:hover:not(.active){
+  color:var(--text);
+}
+
+
+/* ============================================================
+   INPUT
+   ============================================================ */
+
+.input-row{
+  display:flex;
+  width:100%;
+  gap:10px;
+}
+
+input[type="text"],
+textarea{
+  flex:1;
+  min-width:0;
+  width:100%;
+  background:var(--panel-2);
+  border:1px solid var(--line);
+  color:var(--text);
+  font-family:var(--mono);
+  font-size:15px;
+  padding:12px 14px;
+  border-radius:10px;
+  outline:none;
+  resize:vertical;
+}
+
+textarea{
+  display:block;
+}
+
+input[type="text"]:focus,
+textarea:focus{
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px rgba(91,140,255,.25);
+}
+
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+
+button{
+  background:var(--accent);
+  color:#fff;
+  border:none;
+  font-size:15px;
+  font-weight:600;
+  padding:12px 20px;
+  border-radius:10px;
+  cursor:pointer;
+  touch-action:manipulation;
+}
+
+button:hover{
+  filter:brightness(1.1);
+}
+
+button:focus-visible{
+  outline:2px solid #fff;
+  outline-offset:2px;
+}
+
+
+/* ============================================================
+   EXAMPLES
+   ============================================================ */
+
+.examples{
+  margin-top:12px;
+  font-size:13px;
+  color:var(--muted);
+  line-height:1.7;
+}
+
+.examples button{
+  background:none;
+  color:var(--accent);
+  font-weight:400;
+  padding:0;
+  margin-right:14px;
+  font-size:13px;
+  text-decoration:underline;
+}
+
+
+/* ============================================================
+   INPUT ERROR
+   ============================================================ */
+
+.input-error{
+  display:none;
+  margin-top:10px;
+  padding:10px 12px;
+  border-radius:8px;
+  background:rgba(248,113,113,.1);
+  border:1px solid var(--danger);
+  color:var(--danger);
+  font-size:13px;
+  line-height:1.5;
+}
+
+
+/* ============================================================
+   RESULT
+   ============================================================ */
+
+#result{
+  display:none;
+  opacity:0;
+  transition:opacity .3s ease;
+}
+
+#result.show{
+  opacity:1;
+}
+
+.verdict{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  width:100%;
+  padding:18px;
+  border-radius:12px;
+  margin-bottom:16px;
+  border:1px solid var(--line);
+}
+
+.verdict .icon{
+  font-size:28px;
+  flex-shrink:0;
+}
+
+.verdict .title{
+  font-weight:700;
+  font-size:18px;
+}
+
+.verdict .sub{
+  color:var(--muted);
+  font-size:13px;
+  margin-top:2px;
+  line-height:1.5;
+}
+
+.verdict.safe{
+  border-color:var(--safe);
+  background:rgba(74,222,128,.08);
+}
+
+.verdict.warn{
+  border-color:var(--warn);
+  background:rgba(251,191,36,.08);
+}
+
+.verdict.danger{
+  border-color:var(--danger);
+  background:rgba(248,113,113,.08);
+}
+
+
+/* ============================================================
+   SCORE BAR
+   ============================================================ */
+
+.score-bar{
+  height:8px;
+  border-radius:999px;
+  background:var(--panel-2);
+  overflow:hidden;
+  margin-top:12px;
+}
+
+.score-fill{
+  height:100%;
+  border-radius:999px;
+  transition:width .4s ease;
+}
+
+
+/* ============================================================
+   CHECKLIST
+   ============================================================ */
+
+.checks{
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+
+.checks li{
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+  padding:12px 0;
+  border-bottom:1px solid var(--line);
+  font-size:14px;
+  line-height:1.5;
+  min-width:0;
+}
+
+.checks li:last-child{
+  border-bottom:none;
+}
+
+.checks .mark{
+  font-family:var(--mono);
+  font-weight:700;
+  width:20px;
+  min-width:20px;
+  flex-shrink:0;
+}
+
+.checks li.flagged .mark{
+  color:var(--danger);
+}
+
+.checks li.ok .mark{
+  color:var(--safe);
+}
+
+.checks .label{
+  color:var(--text);
+  display:flex;
+  align-items:center;
+  gap:6px;
+  min-width:0;
+}
+
+.checks .why{
+  color:var(--muted);
+  font-size:12.5px;
+  margin-top:2px;
+  overflow-wrap:anywhere;
+}
+
+
+/* ============================================================
+   INFO BUTTON
+   ============================================================ */
+
+.info-btn{
+  background:none;
+  border:1px solid var(--line);
+  color:var(--accent);
+  width:18px;
+  height:18px;
+  min-width:18px;
+  border-radius:50%;
+  font-size:11px;
+  line-height:1;
+  padding:0;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+}
+
+.info-btn:hover{
+  background:var(--panel-2);
+}
+
+
+/* ============================================================
+   GLOSSARY TOOLTIP
+   ============================================================ */
+
+.glossary-tooltip{
+  display:none;
+  position:absolute;
+  max-width:280px;
+  background:var(--panel-2);
+  border:1px solid var(--accent);
+  color:var(--text);
+  font-size:13px;
+  line-height:1.5;
+  padding:12px 14px;
+  border-radius:10px;
+  box-shadow:0 8px 24px rgba(0,0,0,.4);
+  z-index:50;
+  overflow-wrap:anywhere;
+}
+
+.glossary-tooltip.open{
+  display:block;
+}
+
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+
+footer{
+  text-align:center;
+  color:var(--muted);
+  font-size:12px;
+  margin-top:30px;
+  line-height:1.6;
+}
+
+code{
+  background:var(--panel-2);
+  padding:1px 5px;
+  border-radius:4px;
+  font-family:var(--mono);
+}
+
+
+/* ============================================================
+   TABLET
+   ============================================================ */
+
+@media (max-width:700px){
+
+  body{
+    padding:24px 12px 60px;
+  }
+
+  .card{
+    padding:18px;
+  }
+
+  .input-row{
+    gap:8px;
+  }
+
+  input[type="text"],
+  textarea{
+    font-size:14px;
+  }
+}
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width:600px){
+
+  body{
+    padding:20px 10px 50px;
+  }
+
+  .wrap{
+    width:100%;
+    max-width:100%;
+  }
+
+  header{
+    margin-bottom:20px;
+  }
+
+  .badge{
+    font-size:10px;
+    letter-spacing:.1em;
+    padding:4px 8px;
+    margin-bottom:10px;
+  }
+
+  h1{
+    font-size:26px;
+    line-height:1.2;
+    margin-bottom:10px;
+  }
+
+  header p{
+    font-size:14px;
+    line-height:1.5;
+  }
+
+  .card{
+    padding:16px;
+    border-radius:12px;
+    margin-bottom:14px;
+  }
+
+  /* Tabs */
+  .tabs{
+    gap:4px;
+    margin-bottom:16px;
+  }
+
+  .tab-btn{
+    font-size:13px;
+    padding:11px 6px;
+    min-height:44px;
+  }
+
+  /* Input and button */
+  .input-row{
+    flex-direction:column;
+    gap:8px;
+  }
+
+  input[type="text"],
+  textarea{
+    width:100%;
+    min-width:0;
+    font-size:14px;
+    padding:12px;
+  }
+
+  .input-row button{
+    width:100%;
+    min-height:44px;
+  }
+
+  /* Examples */
+  .examples{
+    line-height:1.8;
+  }
+
+  .examples button{
+    display:inline-block;
+    margin-right:8px;
+    margin-bottom:4px;
+  }
+
+  /* Result */
+  .verdict{
+    align-items:flex-start;
+    gap:10px;
+    padding:14px;
+  }
+
+  .verdict .icon{
+    font-size:24px;
+  }
+
+  .verdict .title{
+    font-size:17px;
+  }
+
+  .verdict .sub{
+    font-size:12px;
+    line-height:1.5;
+  }
+
+  .score-bar{
+    height:7px;
+  }
+
+  /* Checklist */
+  .checks li{
+    gap:9px;
+    padding:12px 0;
+    font-size:13px;
+  }
+
+  .checks .label{
+    line-height:1.4;
+  }
+
+  .checks .why{
+    font-size:12px;
+    line-height:1.5;
+  }
+
+  .checks .mark{
+    width:18px;
+    min-width:18px;
+  }
+
+  /* Glossary popup */
+  .glossary-tooltip{
+    position:fixed;
+    left:10px !important;
+    right:10px;
+    bottom:15px;
+    top:auto !important;
+    width:auto;
+    max-width:none;
+    font-size:13px;
+    padding:14px;
+  }
+
+  footer{
+    font-size:11px;
+    padding:0 10px;
+  }
+}
+
+
+/* ============================================================
+   SMALL PHONES
+   ============================================================ */
+
+@media (max-width:380px){
+
+  body{
+    padding:15px 8px 40px;
+  }
+
+  .card{
+    padding:13px;
+  }
+
+  .badge{
+    font-size:9px;
+  }
+
+  h1{
+    font-size:23px;
+  }
+
+  header p{
+    font-size:13px;
+  }
+
+  .tab-btn{
+    font-size:12px;
+    padding:10px 4px;
+  }
+
+  input[type="text"],
+  textarea{
+    font-size:13px;
+  }
+
+  .verdict{
+    padding:12px;
+  }
+
+  .verdict .icon{
+    font-size:22px;
+  }
+
+  .verdict .title{
+    font-size:16px;
+  }
+
+  .checks li{
+    font-size:12.5px;
+  }
+
+  .checks .why{
+    font-size:11.5px;
+  }
+}
