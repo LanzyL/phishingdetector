@@ -388,7 +388,7 @@ function loadExample(url) {
 }
 
 const MESSAGE_EXAMPLES = {
-  safe: "Hi Lance, just confirming our meeting tomorrow at 10am in the usual conference room. Let me know if that still works for you. Thanks, Angelo",
+  safe: "Hi Lance, just confirming our meeting tomorrow at 10am in the usual conference room. Let me know if that still works for you.",
   phish: "Dear Customer, URGENT: Unusual activity was detected on your account. Your account will be suspended within 24 hours unless you verify your identity immediately. Please confirm your password and one-time code here: http://secure-account-verify.top/login. Failure to respond may result in legal action."
 };
 
